@@ -484,6 +484,7 @@ export function AccountForm({ onSuccess, account, isEdit = false }: AccountFormP
                 <SelectContent>
                   <SelectItem value="active">Active</SelectItem>
                   <SelectItem value="inactive">Inactive</SelectItem>
+                  <SelectItem value="freeze">Freeze</SelectItem>
                 </SelectContent>
               </Select>
             </div>
