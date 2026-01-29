@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    /* Ultra Dark Matte Theme - High Contrast */
+    --background: 210 15% 8%;
+    --foreground: 210 10% 95%;
+    --card: 210 15% 12%;
+    --card-foreground: 210 10% 95%;
+    --popover: 210 15% 12%;
+    --popover-foreground: 210 10% 95%;
+    
+    /* Blue Accent - Primary */
+    --primary: 213 78% 58%;
+    --primary-variant: 213 78% 65%;
+    --primary-foreground: 210 10% 98%;
+    
+    /* Muted Blue - Secondary */
+    --secondary: 210 15% 18%;
+    --secondary-foreground: 210 10% 95%;
+    
+    /* Dark Gray - Muted */
+    --muted: 210 15% 15%;
+    --muted-foreground: 210 10% 70%;
+    
+    /* Subtle Accent */
+    --accent: 210 15% 20%;
+    --accent-foreground: 210 10% 95%;
+    
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 210 10% 98%;
+    --border: 210 15% 18%;
+    --input: 210 15% 10%;
+    --ring: 213 78% 58%;
+    
+    /* Chart colors using ultra dark theme */
+    --chart-1: 213 78% 58%;  /* Blue Accent */
+    --chart-2: 210 15% 25%;   /* Dark Gray */
+    --chart-3: 0 70% 60%;    /* Red Accent */
+    --chart-4: 210 15% 30%;   /* Medium Gray */
+    --chart-5: 210 10% 70%;    /* Light Gray */
+    
+    --radius: 0.75rem;
+
+    /* Ultra Dark Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(213, 78%, 58%), hsl(213, 78%, 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210, 15%, 15%), hsl(210, 15%, 20%));
+    --gradient-hero: linear-gradient(135deg, hsl(210, 15%, 8%) 0%, hsl(210, 15%, 12%) 50%, hsl(213, 78%, 58%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(210, 15%, 18%), hsl(210, 15%, 22%));
+    --gradient-sunset: linear-gradient(135deg, hsl(0, 70%, 60%), hsl(213, 78%, 58%));
+
+    /* Ultra Dark Glassmorphism */
+    --glass-bg: hsla(210, 15%, 10%, 0.9);
+    --glass-border: hsla(213, 78%, 58%, 0.2);
+
+    /* Ultra Dark Shadows */
+    --shadow-primary: 0 10px 30px -10px hsl(213, 78%, 58%, 0.3);
+    --shadow-secondary: 0 10px 30px -10px hsl(210, 15%, 5%, 0.8);
+    --shadow-elegant: 0 20px 60px -10px hsl(210, 15%, 5%, 0.5);
+    --shadow-glow: 0 0 40px hsl(213, 78%, 58%, 0.4);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --sidebar-background: 210 15% 10%;
+    --sidebar-foreground: 210 10% 95%;
+    --sidebar-primary: 213 78% 58%;
+    --sidebar-primary-foreground: 210 10% 98%;
+    --sidebar-accent: 210 15% 18%;
+    --sidebar-accent-foreground: 210 10% 95%;
+    --sidebar-border: 210 15% 15%;
+    --sidebar-ring: 213 78% 58%;
+  }
+
+  .dark {
+    /* Ultra Dark Theme - Even Darker */
+    --background: 210 15% 5%;
+    --foreground: 210 10% 98%;
+    --card: 210 15% 8%;
+    --card-foreground: 210 10% 98%;
+    --popover: 210 15% 8%;
+    --popover-foreground: 210 10% 98%;
+    
+    /* Enhanced blue accent for dark mode */
+    --primary: 79 90% 45%;
+    --primary-variant: 78 100% 60%;
+    --primary-foreground: 210 10% 98%;
+    
+    --secondary: 210 15% 15%;
+    --secondary-foreground: 210 10% 98%;
+    
+    --muted: 210 15% 12%;
+    --muted-foreground: 210 10% 75%;
+    
+    --accent: 210 15% 18%;
+    --accent-foreground: 210 10% 98%;
+    
+    --destructive: 0 70% 65%;
+    --destructive-foreground: 210 10% 98%;
+    --border: 210 15% 15%;
+    --input: 210 15% 8%;
+    --ring: 213 78% 65%;
+    
+    /* Enhanced dark mode chart colors */
+    --chart-1: 213 78% 65%;
+    --chart-2: 210 15% 30%;
+    --chart-3: 0 70% 65%;
+    --chart-4: 210 15% 35%;
+    --chart-5: 210 10% 75%;
+
+    /* Enhanced dark mode glass effects */
+    --glass-bg: hsla(210, 15%, 6%, 0.95);
+    --glass-border: hsla(213, 78%, 65%, 0.25);
+
+    --sidebar-background: 210 15% 6%;
+    --sidebar-foreground: 210 10% 98%;
+    --sidebar-primary: 213 78% 65%;
+    --sidebar-primary-foreground: 210 10% 98%;
+    --sidebar-accent: 210 15% 15%;
+    --sidebar-accent-foreground: 210 10% 98%;
+    --sidebar-border: 210 15% 12%;
+    --sidebar-ring: 213 78% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans transition-colors duration-300;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glow-primary {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .bg-gradient-sunset {
+    background: var(--gradient-sunset);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-spring {
+    transition: var(--transition-spring);
+  }
+
+  /* Coastal themed buttons */
+  .btn-ocean {
+    @apply bg-gradient-primary text-primary-foreground hover:shadow-primary transition-all duration-300;
+  }
+
+  .btn-coral {
+    @apply bg-gradient-accent text-accent-foreground hover:shadow-lg transition-all duration-300;
+  }
+
+  /* Modern animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes glow {
+    from { box-shadow: 0 0 20px hsl(194 100% 45% / 0.2); }
+    to { box-shadow: 0 0 30px hsl(194 100% 45% / 0.4); }
+  }
+}
