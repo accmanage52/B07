@@ -57,9 +57,23 @@ export function AccountCard({ account, onDeleted, onEdit }: AccountCardProps) {
             <div className="flex items-center gap-2">
               <Building2 className="h-5 w-5 text-primary" />
               <CardTitle className="text-lg">{account.bank_name}</CardTitle>
-              <Badge variant={account.status === 'active' ? 'default' : 'secondary'} className="ml-2">
-                {account.status === 'active' ? 'Active' : 'Inactive'}
+              <Badge
+                className="ml-2"
+                variant={
+                  account.status === 'active'
+                    ? 'default'
+                    : account.status === 'freeze'
+                    ? 'destructive'
+                    : 'secondary'
+                }
+              >
+                {account.status === 'active'
+                  ? 'Active'
+                  : account.status === 'freeze'
+                  ? 'Frozen'
+                  : 'Inactive'}
               </Badge>
+
             </div>
             <div className="flex gap-1">
               <Button variant="outline" size="sm" onClick={() => setDetailsOpen(true)}>
