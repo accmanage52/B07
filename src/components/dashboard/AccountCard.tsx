@@ -70,7 +70,7 @@ export function AccountCard({ account, onDeleted, onEdit }: AccountCardProps) {
                 {account.status === 'active'
                   ? 'Active'
                   : account.status === 'freeze'
-                  ? 'Frozen'
+                  ? 'Freeze'
                   : 'Inactive'}
               </Badge>
 
