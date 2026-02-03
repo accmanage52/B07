@@ -117,6 +117,7 @@ export function AccountForm({ onSuccess, account, isEdit = false }: AccountFormP
           .from('accounts')
           .update({
             bank_name: bankName,
+            account_closing_balance: accountClosingBalance,
             account_holder_name: accountHolderName,
             account_number: accountNumber,
             ifsc_code: ifscCode,
@@ -191,6 +192,7 @@ export function AccountForm({ onSuccess, account, isEdit = false }: AccountFormP
             user_id: user.id,
             customer_id: customer.id,
             bank_name: bankName,
+            account_closing_balance: accountClosingBalance,
             account_holder_name: accountHolderName,
             account_number: accountNumber,
             ifsc_code: ifscCode,
