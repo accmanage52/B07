@@ -71,7 +71,7 @@ export function UserManagement() {
         throw new Error('No active session');
       }
 
-      const response = await fetch(`https://kkpqfabhsdanybxaaqsu.supabase.co/functions/v1/create-accountant`, {
+      const response = await fetch(`https://gjytsmbrqvsbpxncrniz.supabase.co/functions/v1/create-accountant`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${session.access_token}`,
