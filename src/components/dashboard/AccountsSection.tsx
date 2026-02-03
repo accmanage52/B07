@@ -28,6 +28,7 @@ export interface Account {
   ifsc_code: string;
   mobile_number: string;
   email_id: string;
+  account_closing_balance?: number;
   internet_banking_id?: string;
   internet_banking_password?: string;
   account_provided_by?: string;
@@ -76,9 +77,11 @@ export function AccountsSection() {
       
       // Transform the data to match our interface
       const transformedData = (data || []).map(account => ({
-        ...account,
-        customer: account.customers
+       ...account,
+       customer: account.customers,
+       account_closing_balance: Number(account.account_closing_balance) || 0,
       }));
+
       
       setAccounts(transformedData);
     } catch (error: any) {
