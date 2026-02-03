@@ -19,6 +19,8 @@ interface AccountantProfile {
   created_at: string;
 }
 
+
+
 export function UserManagement() {
   const [accountants, setAccountants] = useState<AccountantProfile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,13 @@ export function UserManagement() {
       fetchAccountants();
     }
   }, [user]);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      console.log("SESSION CHECK:", data.session)
+    })
+  }, [])
+
 
   const fetchAccountants = async () => {
     try {
