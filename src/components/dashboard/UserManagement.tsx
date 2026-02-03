@@ -60,7 +60,6 @@ export function UserManagement() {
     }
   };
 
-  import { supabase } from "@/lib/supabase" // your supabase client
 
 const createAccountant = async () => {
   const { data: { session } } = await supabase.auth.getSession()
