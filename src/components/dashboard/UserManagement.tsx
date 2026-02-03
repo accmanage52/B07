@@ -60,54 +60,36 @@ export function UserManagement() {
     }
   };
 
-  const createAccountant = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setCreating(true);
+  import { supabase } from "@/lib/supabase" // your supabase client
 
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        throw new Error('No active session');
-      }
+const createAccountant = async () => {
+  const { data: { session } } = await supabase.auth.getSession()
 
-      const response = await fetch(`https://gjytsmbrqvsbpxncrniz.supabase.co/functions/v1/create-accountant`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: newAccountant.email,
-          password: newAccountant.password,
-          fullName: newAccountant.fullName,
-        }),
-      });
+  if (!session) {
+    alert("Not logged in")
+    return
+  }
 
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || `Failed with status ${response.status}`);
-      }
-
-      toast({
-        title: "Success",
-        description: "Accountant created and confirmed successfully! They can now sign in immediately.",
-      });
-
-      setNewAccountant({ email: '', password: '', fullName: '' });
-      setIsDialogOpen(false);
-      fetchAccountants();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setCreating(false);
+  const res = await fetch(
+    "https://gjytsmbrqvsbpxncrniz.supabase.co/functions/v1/create-accountant",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({
+        email: "test@acct.com",
+        password: "Test1234!",
+        fullName: "Test Accountant",
+      }),
     }
-  };
+  )
+
+  const data = await res.json()
+  console.log(data)
+}
+
 
   const deleteAccountant = async (accountantId: string) => {
     try {
