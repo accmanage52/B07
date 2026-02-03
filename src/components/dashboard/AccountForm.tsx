@@ -44,6 +44,7 @@ export function AccountForm({ onSuccess, account, isEdit = false }: AccountFormP
   const [accountGivenTo, setAccountGivenTo] = useState(account?.account_given_to || '');
   const [atmPin, setAtmPin] = useState(account?.atm_pin || '');
   const [status, setStatus] = useState(account?.status || 'active');
+  const [accountClosingBalance, setAccountClosingBalance] = useState(account?.account_closing_balance || '');
   const [showAtmPin, setShowAtmPin] = useState(false);
   const [showIBPassword, setShowIBPassword] = useState(false);
   
@@ -464,6 +465,14 @@ export function AccountForm({ onSuccess, account, isEdit = false }: AccountFormP
                   placeholder="Enter ATM PIN"
                   maxLength={4}
                 />
+              <Label htmlFor="closing-balance">Account Closing Balance</Label>
+               <Input
+                 id="closing-balance"
+                 type="number"
+                 value={accountClosingBalance}
+                 onChange={(e) => setAccountClosingBalance(e.target.value)}
+                 placeholder="Enter closing balance"
+               />
                 <Button
                   type="button"
                   variant="ghost"
