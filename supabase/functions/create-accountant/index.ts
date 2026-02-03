@@ -1,108 +1,138 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 
+// ✅ CORS headers (IMPORTANT)
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*", // replace with your domain in prod
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
 }
 
 serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+  // ✅ Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders,
+    })
   }
 
   try {
-    // Create a Supabase client with the service role key
+    // ✅ Read Authorization header
+    const authHeader = req.headers.get("Authorization")
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: "Missing Authorization header" }),
+        { status: 401, headers: corsHeaders }
+      )
+    }
+
+    const token = authHeader.replace("Bearer ", "")
+
+    // ✅ Client for verifying the logged-in user
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!
+    )
+
+    // ✅ Admin client (service role)
     const supabaseAdmin = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
       {
         auth: {
           autoRefreshToken: false,
-          persistSession: false
-        }
+          persistSession: false,
+        },
       }
     )
 
-    // Get the authorization header from the request
-    const authHeader = req.headers.get('Authorization')
-    if (!authHeader) {
-      throw new Error('Missing authorization header')
-    }
-
-    // Create a regular Supabase client to verify the requesting user
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
-    )
-
-    // Get the user from the JWT token
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    )
+    // ✅ Verify JWT
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token)
 
     if (authError || !user) {
-      throw new Error('Invalid authentication')
+      return new Response(
+        JSON.stringify({ error: "Invalid or expired token" }),
+        { status: 401, headers: corsHeaders }
+      )
     }
 
-    // Verify the user is an admin
+    // ✅ Check admin role
     const { data: profile, error: profileError } = await supabaseAdmin
-      .from('profiles')
-      .select('role')
-      .eq('user_id', user.id)
-      .maybeSingle()
+      .from("profiles")
+      .select("role")
+      .eq("user_id", user.id)
+      .single()
 
-    if (profileError || profile?.role !== 'admin') {
-      throw new Error('Unauthorized: Admin access required')
+    if (profileError || profile?.role !== "admin") {
+      return new Response(
+        JSON.stringify({ error: "Admin access required" }),
+        { status: 403, headers: corsHeaders }
+      )
     }
 
-    // Get the request body
+    // ✅ Parse request body
     const { email, password, fullName } = await req.json()
 
     if (!email || !password || !fullName) {
-      throw new Error('Missing required fields: email, password, fullName')
+      return new Response(
+        JSON.stringify({
+          error: "Missing required fields: email, password, fullName",
+        }),
+        { status: 400, headers: corsHeaders }
+      )
     }
 
-    // Create the user with admin privileges (auto-confirmed)
-    const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: email,
-      password: password,
-      email_confirm: true, // Auto-confirm the email
-      user_metadata: {
-        full_name: fullName,
-        role: 'accountant',
-        created_by_admin: user.id
-      }
-    })
+    // ✅ Create accountant user
+    const { data, error: createError } =
+      await supabaseAdmin.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+        user_metadata: {
+          full_name: fullName,
+          role: "accountant",
+          created_by_admin: user.id,
+        },
+      })
 
     if (createError) {
-      throw createError
+      return new Response(
+        JSON.stringify({ error: createError.message }),
+        { status: 400, headers: corsHeaders }
+      )
     }
 
+    // ✅ Success response
     return new Response(
-      JSON.stringify({ 
-        success: true, 
-        user: newUser.user,
-        message: 'Accountant created and confirmed successfully'
+      JSON.stringify({
+        success: true,
+        user: data.user,
       }),
       {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
-      },
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+        },
+      }
     )
-
   } catch (error) {
-    console.error('Error creating accountant:', error)
+    console.error("Function error:", error)
+
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message 
-      }),
+      JSON.stringify({ error: "Internal server error" }),
       {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 400,
-      },
+        status: 500,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+        },
+      }
     )
   }
 })
