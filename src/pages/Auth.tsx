@@ -92,7 +92,7 @@ const Auth = () => {
             <Tabs defaultValue="signin" className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-muted/30 backdrop-blur-sm">
                 <TabsTrigger value="signin" className="transition-all duration-200">Sign In</TabsTrigger>
-                <TabsTrigger value="signup" className="transition-all duration-200">Sign Up</TabsTrigger>
+                {/*<TabsTrigger value="signup" className="transition-all duration-200">Sign Up</TabsTrigger>*/}
               </TabsList>
               
               <TabsContent value="signin" className="animate-fade-in">
