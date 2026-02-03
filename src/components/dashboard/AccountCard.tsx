@@ -288,11 +288,23 @@ export function AccountCard({ account, onDeleted, onEdit }: AccountCardProps) {
                   </div>
                 )}
                 {account.atm_pin && (
-                  <div>
-                    <span className="text-muted-foreground">ATM PIN:</span>
-                    <p className="font-medium font-mono">••••</p>
+                 <div>
+                  <span className="text-muted-foreground">ATM PIN:</span>
+                  <div className="flex items-center gap-2">
+                   <p className="font-medium font-mono">
+                    {showPassword ? account.atm_pin : '••••'}
+                   </p>
+                   <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowPassword(!showPassword)}
+                   >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                   </Button>
                   </div>
+                 </div>
                 )}
+
                 {account.account_closing_balance !== undefined && (
                  <div>
                   <span className="text-muted-foreground">Closing Balance:</span>
