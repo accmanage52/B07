@@ -192,6 +192,7 @@ export function AccountsSection() {
               <SelectItem value="all">All Status</SelectItem>
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="inactive">Inactive</SelectItem>
+              <SelectItem value="freeze">Freeze</SelectItem>
             </SelectContent>
           </Select>
         </div>
