@@ -34,6 +34,12 @@ export function UserManagement() {
   const { user } = useAuth();
   const { toast } = useToast();
 
+  export function UserManagement() {
+  console.log("USER MANAGEMENT RENDERED"); // 👈 ADD THIS
+
+  const [accountants, setAccountants] = useState<AccountantProfile[]>([])
+  ...
+
   useEffect(() => {
     if (user) {
       fetchAccountants();
