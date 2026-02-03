@@ -293,6 +293,14 @@ export function AccountCard({ account, onDeleted, onEdit }: AccountCardProps) {
                     <p className="font-medium font-mono">••••</p>
                   </div>
                 )}
+                {account.account_closing_balance !== undefined && (
+                 <div>
+                  <span className="text-muted-foreground">Closing Balance:</span>
+                  <p className="font-medium text-green-500">
+                   ₹ {Number(account.account_closing_balance).toLocaleString()}
+                  </p>
+                 </div>
+               )}
               </div>
             </div>
           </div>
