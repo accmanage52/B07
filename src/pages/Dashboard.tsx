@@ -27,7 +27,7 @@ const Dashboard = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('accounts');
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
     if (!user) {
@@ -60,6 +60,7 @@ const Dashboard = () => {
 
   const renderActiveContent = () => {
     switch (activeTab) {
+      case 'dashboard': return <DashboardAnalytics />;
       case 'accounts': return <AccountsSection />;
       case 'merchants': return <MerchantsSection />;
       case 'users': return profile?.role === 'admin' ? <UserManagement /> : null;
