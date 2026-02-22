@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Home } from "lucide-react";
 
 interface Profile {
   full_name: string;
@@ -47,6 +48,11 @@ export function AppSidebar({ profile, onSignOut, activeTab, onTabChange }: AppSi
       icon: Store, 
       description: 'Payment gateways',
       gradient: 'bg-gradient-secondary'
+    },
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: Home,
     },
   ];
 
