@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const DashboardAnalytics = () => {
-  const [stats, setStats] = useState<any>({});
+  const [stats, setStats] = useState<any>(null);
 
   useEffect(() => {
     loadData();
@@ -21,7 +21,6 @@ export const DashboardAnalytics = () => {
       active: 0,
       inactive: 0,
       freeze: 0,
-
       totalBal: 0,
       activeBal: 0,
       inactiveBal: 0,
@@ -30,7 +29,6 @@ export const DashboardAnalytics = () => {
 
     data.forEach((acc) => {
       const bal = acc.account_closing_balance || 0;
-
       result.totalBal += bal;
 
       if (acc.status === "active") {
@@ -39,7 +37,7 @@ export const DashboardAnalytics = () => {
       } else if (acc.status === "inactive") {
         result.inactive++;
         result.inactiveBal += bal;
-      } else if (acc.status === "freeze") {
+      } else {
         result.freeze++;
         result.freezeBal += bal;
       }
@@ -48,12 +46,18 @@ export const DashboardAnalytics = () => {
     setStats(result);
   };
 
-  const CardBox = ({ title, value }: any) => (
-    <Card>
+  if (!stats) return null;
+
+  const StatCard = ({ title, value, color }: any) => (
+    <Card className="bg-gradient-to-br from-card to-card/60 border border-border/40 shadow-lg hover:scale-[1.02] transition">
       <CardHeader>
-        <CardTitle className="text-sm text-muted-foreground">{title}</CardTitle>
+        <CardTitle className="text-sm text-muted-foreground">
+          {title}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="text-2xl font-bold">{value}</CardContent>
+      <CardContent className="text-2xl font-bold" style={{ color }}>
+        {value}
+      </CardContent>
     </Card>
   );
 
@@ -61,20 +65,46 @@ export const DashboardAnalytics = () => {
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Financial Overview</h2>
 
-      {/* Account Count Section */}
-      <div className="grid md:grid-cols-4 gap-4">
-        <CardBox title="Total Accounts" value={stats.total} />
-        <CardBox title="Active Accounts" value={stats.active} />
-        <CardBox title="Inactive Accounts" value={stats.inactive} />
-        <CardBox title="Freeze Accounts" value={stats.freeze} />
+      {/* Account Section */}
+      <div>
+        <p className="text-muted-foreground mb-2 text-sm uppercase tracking-wide">
+          Account Summary
+        </p>
+        <div className="grid md:grid-cols-4 gap-4">
+          <StatCard title="Total Accounts" value={stats.total} color="#38bdf8" />
+          <StatCard title="Active Accounts" value={stats.active} color="#22c55e" />
+          <StatCard title="Inactive Accounts" value={stats.inactive} color="#facc15" />
+          <StatCard title="Freeze Accounts" value={stats.freeze} color="#ef4444" />
+        </div>
       </div>
 
       {/* Balance Section */}
-      <div className="grid md:grid-cols-4 gap-4">
-        <CardBox title="Total Balance" value={`₹ ${stats.totalBal?.toLocaleString()}`} />
-        <CardBox title="Active Balance" value={`₹ ${stats.activeBal?.toLocaleString()}`} />
-        <CardBox title="Inactive Balance" value={`₹ ${stats.inactiveBal?.toLocaleString()}`} />
-        <CardBox title="Freeze Balance" value={`₹ ${stats.freezeBal?.toLocaleString()}`} />
+      <div>
+        <p className="text-muted-foreground mb-2 text-sm uppercase tracking-wide">
+          Balance Summary
+        </p>
+        <div className="grid md:grid-cols-4 gap-4">
+          <StatCard
+            title="Total Balance"
+            value={`₹ ${stats.totalBal.toLocaleString()}`}
+            color="#38bdf8"
+          />
+          <StatCard
+            title="Active Balance"
+            value={`₹ ${stats.activeBal.toLocaleString()}`}
+            color="#22c55e"
+          />
+          <StatCard
+            title="Inactive Balance"
+            value={`₹ ${stats.inactiveBal.toLocaleString()}`}
+            color="#facc15"
+          />
+          <StatCard
+            title="Freeze Balance"
+            value={`₹ ${stats.freezeBal.toLocaleString()}`}
+            color="#ef4444"
+          />
+        </div>
       </div>
     </div>
   );
