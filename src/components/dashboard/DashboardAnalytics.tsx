@@ -62,7 +62,7 @@ export const DashboardAnalytics = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-7xl mx-auto">
       <h2 className="text-xl font-semibold">Financial Overview</h2>
 
       {/* Account Section */}
