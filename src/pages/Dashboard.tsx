@@ -12,6 +12,7 @@ import { ChangePasswordDialog } from '@/components/dashboard/ChangePasswordDialo
 import { AppSidebar } from '@/components/AppSidebar';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Menu, Settings, Sparkles } from 'lucide-react';
+import { DashboardAnalytics } from '@/components/dashboard/DashboardAnalytics';
 
 interface Profile {
   id: string;
