@@ -35,24 +35,25 @@ export function AppSidebar({ profile, onSignOut, activeTab, onTabChange }: AppSi
   const collapsed = state === 'collapsed';
 
   const mainItems = [
+    {
+      id: 'dashboard',
+      title: 'DASHBOARD',
+      label: 'Dashboard',
+      icon: Home,
+    },
     { 
       id: 'accounts', 
-      title: 'Accounts', 
+      title: 'ACCOUNTS', 
       icon: CreditCard, 
       description: 'Manage bank accounts',
       gradient: 'bg-gradient-primary'
     },
     { 
       id: 'merchants', 
-      title: 'Merchants', 
+      title: 'MERCHANTS', 
       icon: Store, 
       description: 'Payment gateways',
       gradient: 'bg-gradient-secondary'
-    },
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: Home,
     },
   ];
 
